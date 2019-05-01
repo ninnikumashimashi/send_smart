@@ -13,7 +13,7 @@ QNAPのNASから、ディスク使用率とS.M.A.R.T.情報をhtmlメールで�
 >enAuthPass = yourpassword  
 
 ### Disk情報
-/proc/scsi/scsi
+/proc/scsi/scsi  
 の、「Model」が入った行を引っ張ってきています。  
 別のモデルやファームウェアのNASでは、ディレクトリ構成が変わっているかもしれないので  
 適宜変更ください。
