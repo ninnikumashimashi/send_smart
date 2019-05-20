@@ -12,11 +12,13 @@ readonly MAIL_CONTENT="text/html; charset=UTF-8"
 readonly HTML_TEMPLATE=$(cd $(dirname $0);pwd)/base.html
 readonly TABLE_HEADER="<table><tr><th>ID</th><th>説明</th><th>値</th><th>ワースト値</th><th>しきい値</th><th>Raw値</th><th>ステータス</th></tr>"
 
+
 get_disk_usage(){
     # $5はdf -hでの表示順に依るため、順番変わったら変更必要あり
-    usage=$(df -h | grep ^$DISK_USAGE | awk '{print $5}')
+    usage=(`df -h | grep ^$DISK_USAGE | awk '{print $5}'`)
     echo "<h3>"$DISK_USAGE "使用率："$usage"</h3>"
 }
+
 
 get_disk_models(){
     cnt=0
@@ -28,6 +30,7 @@ get_disk_models(){
         fi
     done <$DISK_INFO
 }
+
 
 get_smart_info(){
     for file in $SMART_DIR; do
@@ -49,6 +52,7 @@ get_smart_info(){
     done
 }
 
+
 build_mail_body(){
     echo $(get_disk_usage)
     # 文字列中にスペースがあると配列になっちゃってうまく行かないのを回避(よくわかっていない)
@@ -64,6 +68,7 @@ build_mail_body(){
     done
 }
 
+
 replace_html(){
     body=$(build_mail_body)
     # base.html中の文字列をtableに置換
@@ -76,8 +81,10 @@ replace_html(){
     done <$HTML_TEMPLATE
 }
 
+
 send_smart_mail(){
     mail_all="Subject: "$MAIL_SUBJECT$'\n'"To: "$MAIL_TO$'\n'"From: "$MAIL_FROM$'\n'"Content-type: "$MAIL_CONTENT$'\n'$'\n'$(replace_html)
     echo "$mail_all" | ssmtp $MAIL_TO
 }
+
 send_smart_mail
