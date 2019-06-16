@@ -37,7 +37,7 @@ get_smart_info(){
         cnt=0
         smart=""
         # 拡張子がinfoのファイルだけ読み込み
-        if [ ${file##*.} == "info" ]; then
+        if [[ ${file##*.} == "info" ]]; then
             while read line; do
                 # ループ1回目はヘッダ、2回目以降はカンマ区切りを<td>タグに置換
                 if [ $cnt -eq 0 ]; then
